@@ -34,10 +34,10 @@ public class Employee {
   private String jobTitle;
 
   @Column(name = "salary")
-  private String salary;
+  private Double salary;
 
   @Column(name = "full_time")
-  private String fulltime;
+  private Boolean fulltime;
 
   public Integer getId() {
     return id;
@@ -95,19 +95,19 @@ public class Employee {
     this.jobTitle = jobTitle;
   }
 
-  public String getSalary() {
+  public Double getSalary() {
     return salary;
   }
 
-  public void setSalary(String salary) {
+  public void setSalary(Double salary) {
     this.salary = salary;
   }
 
-  public String getFulltime() {
+  public Boolean getFulltime() {
     return fulltime;
   }
 
-  public void setFulltime(String fulltime) {
+  public void setFulltime(Boolean fulltime) {
     this.fulltime = fulltime;
   }
 
