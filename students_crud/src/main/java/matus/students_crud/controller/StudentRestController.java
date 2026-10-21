@@ -78,6 +78,11 @@ public class StudentRestController {
 
   @GetMapping("/search")
   public List<Student> searchStudents(@RequestParam String fn, @RequestParam String ln) {
-    return ss.findByFirstAndLastName(fn, ln);
+    return ss.findByFirstNameAndLastName(fn, ln);
+  }
+
+  @GetMapping("/search-ordered")
+  public List<Student> searchOrderedStudents() {
+    return ss.getSortedStudents();
   }
 }

@@ -13,5 +13,7 @@ public interface StudentService {
 
   void deleteById(int id);
 
-  List<Student> findByFirstAndLastName(String fn, String ln);
+  List<Student> findByFirstNameAndLastName(String fn, String ln);
+
+  List<Student> getSortedStudents();
 }

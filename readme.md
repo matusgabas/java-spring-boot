@@ -5,6 +5,9 @@
 - [zadanie 2](#zadanie-2)
   - kód [students_crud/src/main/java/matus/students_crud](students_crud/src/main/java/matus/students_crud)
   - obrázky [screenshots/z2](screenshots/z2)
+- [zadanie 3](#zadanie-3)
+  - kód [students_crud/src/main/java/matus/students_crud](students_crud/src/main/java/matus/students_crud)
+  - obrázky [screenshots/z3](screenshots/z3)
 
 # Zadania
 
@@ -15,3 +18,10 @@
 
 ## Zadanie 2
 ![image](screenshots/z2/get-all-employees.png)
+
+## Zadanie 3
+![image](screenshots/z3/get-all.png)
+![image](screenshots/z3/find.png)
+![image](screenshots/z3/create.png)
+![image](screenshots/z3/update.png)
+![image](screenshots/z3/delete.png)

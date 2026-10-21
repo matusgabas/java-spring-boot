@@ -5,20 +5,38 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import matus.students_crud.dao.EmployeeDAO;
+import jakarta.transaction.Transactional;
+import matus.students_crud.dao.EmployeeRepository;
 import matus.students_crud.entity.Employee;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-  private final EmployeeDAO edao;
+  private final EmployeeRepository er;
 
   @Autowired
-  public EmployeeServiceImpl(EmployeeDAO edao) {
-    this.edao = edao;
+  public EmployeeServiceImpl(EmployeeRepository er) {
+    this.er = er;
   }
 
   @Override
   public List<Employee> findAll() {
-    return edao.findAll();
+    return er.findAll();
+  }
+
+  @Override
+  public Employee findById(int id) {
+    return er.findById(id).orElse(null);
+  }
+
+  @Transactional
+  @Override
+  public Employee save(Employee e) {
+    return er.save(e);
+  }
+
+  @Transactional
+  @Override
+  public void deleteById(int id) {
+    er.deleteById(id);
   }
 }

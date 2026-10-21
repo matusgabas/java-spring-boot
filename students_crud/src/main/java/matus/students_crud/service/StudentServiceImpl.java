@@ -6,42 +6,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import matus.students_crud.dao.StudentDao;
+import matus.students_crud.dao.StudentRepository;
 import matus.students_crud.entity.Student;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-  private final StudentDao sdao;
+  private final StudentRepository sr;
 
   @Autowired
-  public StudentServiceImpl(StudentDao sdao) {
-    this.sdao = sdao;
+  public StudentServiceImpl(StudentRepository sr) {
+    this.sr = sr;
   }
 
   @Override
   public List<Student> findAll() {
-    return sdao.findAll();
+    return sr.findAll();
   }
 
   @Override
   public Student findById(int id) {
-    return sdao.findById(id);
+    return sr.findById(id).orElse(null);
   }
 
   @Transactional
   @Override
   public Student save(Student student) {
-    return sdao.save(student);
+    return sr.save(student);
   }
 
   @Transactional
   @Override
   public void deleteById(int id) {
-    sdao.deleteById(id);
+    sr.deleteById(id);
   }
 
   @Override
-  public List<Student> findByFirstAndLastName(String fn, String ln) {
-    return sdao.findByFirstAndLastName(fn, ln);
+  public List<Student> findByFirstNameAndLastName(String fn, String ln) {
+    return sr.findByFirstNameAndLastName(fn, ln);
+  }
+
+  @Override
+  public List<Student> getSortedStudents() {
+    return sr.findAllByOrderByLastNameAsc();
   }
 }
