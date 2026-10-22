@@ -5,13 +5,17 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import jakarta.validation.Valid;
 import matus.students_crud.entity.Student;
+import matus.students_crud.response.ResponseFactory;
+import matus.students_crud.response.ResponseWrapper;
 import matus.students_crud.service.StudentService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,47 +29,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/students")
 public class StudentRestController {
   private final StudentService ss;
+  private final ResponseFactory r;
 
   @Autowired
-  public StudentRestController(StudentService ss) {
+  public StudentRestController(StudentService ss, ResponseFactory r) {
     this.ss = ss;
+    this.r = r;
   }
 
   @GetMapping("")
-  public List<Student> getAllStudents() {
-    return ss.findAll();
+  public ResponseEntity<ResponseWrapper<List<Student>>> getAllStudents() {
+    return r.ok("úspešne získané záznamy", ss.findAll());
   }
 
   @GetMapping("/{id}")
-  public Student getStudentById(@PathVariable Integer id) {
+  public ResponseEntity<ResponseWrapper<Student>> getStudentById(@PathVariable Integer id) {
     Student s = ss.findById(id);
     if (s == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student id not found - " + id);
     }
-    return s;
+    return r.ok("úspešne získaný študent", s);
   }
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public Student createStudent(@RequestBody Student s) {
+  public ResponseEntity<ResponseWrapper<Student>> createStudent(@RequestBody Student s) {
     s.setId(null);
     Student savedS = ss.save(s);
-    return savedS;
+    return r.created("úspešne vytvorený študent", savedS);
   }
 
   @PutMapping("/{id}")
-  public Student updateStudent(@PathVariable Integer id, @RequestBody Student s) {
+  public ResponseEntity<ResponseWrapper<Student>> updateStudent(@PathVariable Integer id,
+      @Valid @RequestBody Student s) {
     Student existingS = ss.findById(id);
     if (existingS == null) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student id not found - " + id);
     }
     s.setId(id);
     Student updatedS = ss.save(s);
-    return updatedS;
+    return r.ok("študent úspešne aktualizovaný", updatedS);
   }
 
   @DeleteMapping("/{id}")
-  public Map<String, String> deleteStudent(@PathVariable Integer id) {
+  public ResponseEntity<ResponseWrapper<Map<String, String>>> deleteStudent(@PathVariable Integer id) {
     Student s = ss.findById(id);
 
     if (s == null) {
@@ -73,16 +80,17 @@ public class StudentRestController {
     }
 
     ss.deleteById(id);
-    return Map.of("message", "Deleted student id - " + id);
+    return r.ok("úspešne vymazaný študent", Map.of("message", "Deleted student id - " + id));
   }
 
   @GetMapping("/search")
-  public List<Student> searchStudents(@RequestParam String fn, @RequestParam String ln) {
-    return ss.findByFirstNameAndLastName(fn, ln);
+  public ResponseEntity<ResponseWrapper<List<Student>>> searchStudents(@RequestParam String fn,
+      @RequestParam String ln) {
+    return r.ok("úspešne nájdený", ss.findByFirstNameAndLastName(fn, ln));
   }
 
   @GetMapping("/search-ordered")
-  public List<Student> searchOrderedStudents() {
-    return ss.getSortedStudents();
+  public ResponseEntity<ResponseWrapper<List<Student>>> searchOrderedStudents() {
+    return r.ok("úspešne nájdený", ss.getSortedStudents());
   }
 }

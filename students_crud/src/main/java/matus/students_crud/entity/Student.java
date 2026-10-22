@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "student")
@@ -15,12 +18,19 @@ public class Student {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "first_name")
+  @NotBlank(message = "Meno je povinné")
+  @Size(min = 2, max = 50, message = "Meno musí mať 2-50 znakov")
+  @Column(name = "first_name", nullable = false, length = 50)
   private String firstName;
 
-  @Column(name = "last_name")
+  @NotBlank(message = "Priezvisko je povinné")
+  @Size(min = 2, max = 50, message = "Priezvisko musí mať 2-50 znakov")
+  @Column(name = "last_name", nullable = false, length = 50)
   private String lastName;
 
+  @NotBlank(message = "Email je povinný")
+  @Email(message = "Neplatný email")
+  @Size(max = 100, message = "Email môže mať najviac 100 znakov")
   @Column(name = "email")
   private String email;
 

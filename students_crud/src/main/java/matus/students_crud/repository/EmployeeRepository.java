@@ -1,4 +1,4 @@
-package matus.students_crud.dao;
+package matus.students_crud.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

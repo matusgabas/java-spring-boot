@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import matus.students_crud.dao.StudentRepository;
+import matus.students_crud.repository.StudentRepository;
 import matus.students_crud.entity.Student;
 
 @Service
