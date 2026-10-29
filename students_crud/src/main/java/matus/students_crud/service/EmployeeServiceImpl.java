@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -17,7 +16,6 @@ import matus.students_crud.exception.ObjectNotFoundException;
 public class EmployeeServiceImpl implements EmployeeService {
   private final EmployeeRepository er;
 
-  @Autowired
   public EmployeeServiceImpl(EmployeeRepository er) {
     this.er = er;
   }

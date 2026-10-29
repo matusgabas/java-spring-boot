@@ -3,7 +3,6 @@ package matus.students_crud.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,6 @@ public class StudentRestController {
   private final StudentService ss;
   private final ResponseFactory r;
 
-  @Autowired
   public StudentRestController(StudentService ss, ResponseFactory r) {
     this.ss = ss;
     this.r = r;

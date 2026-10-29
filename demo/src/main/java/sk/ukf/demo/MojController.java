@@ -1,7 +1,6 @@
 package sk.ukf.demo;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,7 +11,6 @@ public class MojController {
   private NotificationService myService2;
   private NotificationService myService3;
 
-  @Autowired
   public MojController(@Qualifier("emailNotification") NotificationService myService,
       @Qualifier("smsNotification") NotificationService myService2,
       @Qualifier("pushNotification") NotificationService myService3) {
