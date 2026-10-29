@@ -1,5 +1,6 @@
 package matus.students_crud.response;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -7,11 +8,13 @@ public class ResponseWrapper<T> {
   private String msg;
   private T data;
   private List<Map<String, String>> errors;
+  private Instant timestamp;
 
   public ResponseWrapper(String msg, T data, List<Map<String, String>> errors) {
     this.msg = msg;
     this.data = data;
     this.errors = errors;
+    this.timestamp = Instant.now();
   }
 
   public String getMsg() {
@@ -36,6 +39,14 @@ public class ResponseWrapper<T> {
 
   public void setErrors(List<Map<String, String>> errors) {
     this.errors = errors;
+  }
+
+  public Instant getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(Instant timestamp) {
+    this.timestamp = timestamp;
   }
 
 }

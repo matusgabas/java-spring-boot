@@ -1,6 +1,7 @@
 package matus.students_crud.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import matus.students_crud.entity.Employee;
 
@@ -12,4 +13,8 @@ public interface EmployeeService {
   Employee save(Employee e);
 
   void deleteById(int id);
+
+  Optional<Employee> findByEmail(String email);
+
+  boolean existsByEmail(String email);
 }

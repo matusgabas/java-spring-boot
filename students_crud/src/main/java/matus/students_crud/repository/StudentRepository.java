@@ -1,6 +1,7 @@
 package matus.students_crud.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,8 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
   List<Student> findByFirstNameAndLastName(String fn, String ln);
 
   List<Student> findAllByOrderByLastNameAsc();
+
+  Optional<Student> findByEmail(String email);
+
+  boolean existsByEmail(String email);
 }

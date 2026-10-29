@@ -3,7 +3,6 @@ package matus.students_crud.exception;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,11 +40,6 @@ public class GlobalExceptionHandler {
     return r.error(HttpStatus.BAD_REQUEST, msg);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ResponseWrapper<Void>> handleGeneral(Exception ex) {
-    return r.error(HttpStatus.INTERNAL_SERVER_ERROR, "Nastala neočakávaná chyba");
-  }
-
   @ExceptionHandler(ObjectNotFoundException.class)
   public ResponseEntity<ResponseWrapper<Void>> handleObjectNotFound(ObjectNotFoundException ex) {
     return r.error(HttpStatus.NOT_FOUND, ex.getMessage());
@@ -56,5 +50,10 @@ public class GlobalExceptionHandler {
     List<Map<String, String>> errors = List.of(
         Map.of("field", "email", "message", ex.getMessage()));
     return r.error(HttpStatus.CONFLICT, "Email už existuje", errors);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ResponseWrapper<Void>> handleGeneral(Exception ex) {
+    return r.error(HttpStatus.INTERNAL_SERVER_ERROR, "Nastala neočakávaná chyba");
   }
 }
