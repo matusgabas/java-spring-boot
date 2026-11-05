@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zamestnanec</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    .row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    input[type=text],
+    input[type=email],
+    input[type=tel],
+    input[type=date],
+    input[type=number],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .radio-group label {
+      display: inline-block;
+      font-weight: normal;
+      margin-right: 14px;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      color: #fff;
+      cursor: pointer;
+      background: #555;
+    }
+
+    .btn-primary {
+      background: #1a6fd1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h2 th:text="${employees.id} != null ? 'Upraviť existujúceho zamestnanca' : 'Pridať nového zamestnanca'"></h2>
+
+    <form th:action="${employees.id} != null ? @{/employee/{id}(id=${employees.id})} : @{/employee}"
+      th:object="${employees}" method="post" class="card">
+
+      <div class="row">
+        <div class="col">
+          <label for="firstName">Meno</label>
+          <input type="text" id="firstName" th:field="*{firstName}" required>
+        </div>
+        <div class="col">
+          <label for="last_name">Priezvisko</label>
+          <input type="text" id="last_name" th:field="*{last_name}" required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="birthDate">Dátum narodenia</label>
+          <input type="date" id="birthDate" th:field="*{birthDate}" required>
+        </div>
+        <div class="col">
+          <label for="jobTitle">Pozícia</label>
+          <select id="jobTitle" th:field="*{jobTitle}" required>
+            <option value="">-- Vyberte pozíciu --</option>
+            <option th:each="job : ${#strings.arraySplit(@environment.getProperty('jobs'), ',')}" th:value="${job}"
+              th:text="${job}"></option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="email">Email</label>
+          <input type="email" id="email" th:field="*{email}" required>
+        </div>
+        <div class="col">
+          <label for="phone">Telefón</label>
+          <input type="tel" id="phone" th:field="*{phone}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="salary">Plat</label>
+          <input type="number" step="0.01" min="0" id="salary" th:field="*{salary}" required>
+        </div>
+        <div class="col">
+          <label>Typ úväzku</label>
+          <div class="radio-group">
+            <span th:each="type, stat : ${#strings.arraySplit(@environment.getProperty('fulltime'), ',')}">
+              <input type="radio" th:field="*{fullTime}" th:value="${stat.index}" required>
+              <label th:for="${#ids.prev('fullTime')}" th:text="${type}"></label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a th:href="@{/employee}" class="btn">Späť na zoznam</a>
+        <button type="submit" class="btn btn-primary"
+          th:text="${employees.id} != null ? 'Uložiť zmeny' : 'Pridať zamestnanca'"></button>
+      </div>
+    </form>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail zamestnanca</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 10px 16px;
+      margin: 0;
+    }
+
+    dt {
+      font-weight: bold;
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    .actions {
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      color: #fff;
+      cursor: pointer;
+      background: #555;
+    }
+
+    .btn-edit {
+      background: #e9a100;
+    }
+
+    .btn-delete {
+      background: #d33;
+    }
+
+    form {
+      display: inline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h2>Detail zamestnanca</h2>
+
+    <div class="card">
+      <dl>
+        <dt>ID</dt>
+        <dd th:text="${employees.id}"></dd>
+
+        <dt>Meno</dt>
+        <dd th:text="${employees.firstName}"></dd>
+
+        <dt>Priezvisko</dt>
+        <dd th:text="${employees.last_name}"></dd>
+
+        <dt>Dátum narodenia</dt>
+        <dd th:text="${employees.birthDate != null} ? ${#temporals.format(employees.birthDate, 'dd.MM.yyyy')} : '-'">
+        </dd>
+
+        <dt>Email</dt>
+        <dd th:text="${employees.email}"></dd>
+
+        <dt>Telefón</dt>
+        <dd th:text="${employees.phone}"></dd>
+
+        <dt>Pozícia</dt>
+        <dd th:text="${employees.jobTitle}"></dd>
+
+        <dt>Plat</dt>
+        <dd
+          th:text="${employees.salary != null} ? ${#numbers.formatDecimal(employees.salary, 1, 'WHITESPACE', 2, 'COMMA')} + ' €' : '-'">
+        </dd>
+
+        <dt>Typ úväzku</dt>
+        <dd th:with="types=${#strings.arraySplit(@environment.getProperty('fulltime'), ',')}"
+          th:text="${employees.fullTime != null and employees.fullTime >= 0 and employees.fullTime < types.length} ? ${types[employees.fullTime]} : '-'">
+        </dd>
+      </dl>
+
+      <div class="actions">
+        <a th:href="@{/employee}" class="btn">Späť na zoznam</a>
+        <a th:href="@{/employee/{id}/edit(id=${employees.id})}" class="btn btn-edit">Upraviť</a>
+        <form th:action="@{/employee/{id}/delete(id=${employees.id})}" method="post"
+          onsubmit="return confirm('Naozaj chcete vymazať tohto zamestnanca?');">
+          <button type="submit" class="btn btn-delete">Vymazať</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
